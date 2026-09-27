@@ -1,17 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-AMI_ID="ami-0e34b50e714a297f1"
-SECURITY_GROUP_ID="sg-0198c11a9428794b5"
-SUBNET_ID="subnet-00cdb0b062590b25f"
-KEY_NAME="vockey"
+AMI_ID=$(aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+  --query 'Parameters[0].Value' --output text)
 
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id "$AMI_ID" \
   --instance-type t3.micro \
-  --security-group-ids "$SECURITY_GROUP_ID" \
-  --subnet-id "$SUBNET_ID" \
-  --key-name "$KEY_NAME" \
-  --query 'Instances[0].InstanceId' \
-  --output text)
+  --count 1 \
+  --iam-instance-profile Name=LabInstanceProfile \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=acs730-week1}]' \
+  --query 'Instances[0].InstanceId' --output text)
 
-echo "Instance ID: $INSTANCE_ID"
+echo "Instance launched: $INSTANCE_ID"

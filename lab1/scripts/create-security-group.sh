@@ -1,18 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-aws ec2 create-security-group \
-  --group-name acs730-lab1-security-group \
-  --description "ACS730 Lab 1 security group"
+# Least privilege from day one: SSH only from *your* current IP, not the world.
+MY_IP=$(curl -s https://checkip.amazonaws.com)
 
-SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
-  --group-names acs730-lab1-security-group \
-  --query 'SecurityGroups[0].GroupId' \
-  --output text)
+GROUP_ID=$(aws ec2 create-security-group \
+  --group-name acs730-week1-sg \
+  --description "ACS730 week 1 test security group" \
+  --query 'GroupId' --output text)
 
 aws ec2 authorize-security-group-ingress \
-  --group-id "$SECURITY_GROUP_ID" \
-  --protocol tcp \
-  --port 22 \
-  --cidr 3.90.187.119/32
+  --group-id "$GROUP_ID" \
+  --protocol tcp --port 22 --cidr "${MY_IP}/32"
 
-echo "Security Group ID: $SECURITY_GROUP_ID"
+echo "Security group created: $GROUP_ID (SSH allowed from ${MY_IP}/32 only)"
