@@ -1,19 +1,15 @@
 # Lab 1
 
-Instructions for this section will be provided in class and on Blackboard when we reach it.
-
-Put your work for Lab 1 in this folder.
-
 ## Scripts
 
 ### create-security-group.sh
-Creates the security group for the lab and allows SSH access from my IP address.
+Creates a security group named acs730-week1-sg and allows SSH access only from the current machine's public IP, fetched dynamically via checkip.amazonaws.com.
 
 ### create-instance.sh
-Creates a test EC2 instance with the AMI, subnet, key pair, and security group.
+Launches a test EC2 instance using the latest Amazon Linux 2023 AMI (queried dynamically via SSM). The instance is tagged Name=acs730-week1 and attached to LabInstanceProfile so it automatically receives AWS permissions.
 
 ### delete-instance.sh
-Terminates the test EC2 instance.
+Finds any instance tagged acs730-week1 and terminates it. Safe to run multiple times.
 
 ### delete-security-group.sh
-Deletes the security group after the test instance has been terminated.
+Deletes the acs730-week1-sg security group after the test instance has been terminated
