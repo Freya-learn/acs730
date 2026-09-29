@@ -1,5 +1,1 @@
-# Lab 2
-
-Instructions for this section will be provided in class and on Blackboard when we reach it.
-
-Put your work for Lab 2 in this folder.
+systemctl start runs the service right now, while systemctl enable makes it start automatically on every boot (enable alone does not start it now).

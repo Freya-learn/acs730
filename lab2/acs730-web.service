@@ -1,0 +1,15 @@
+[Unit]
+Description=ACS730 Lab 2 web application
+After=network.target
+
+[Service]
+Type=simple
+User=acs730web
+Group=acs730web
+WorkingDirectory=/opt/acs730-web/www
+ExecStart=/usr/bin/python3 -m http.server 80 --directory /opt/acs730-web/www
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
