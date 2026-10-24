@@ -24,3 +24,18 @@ Evidence: `evidence/image-sizes.png`
 - **Cache:** On a code-only rebuild, the dependency layer is CACHED only in the slim image. In the naive image, `COPY . .` comes before `pip install`, so any code change makes pip install run again.
 - **.dockerignore:** It kept `.git`, `.github`, `evidence/`, `*.md`, `*.png`, `Dockerfile*` and Python cache files out of the build context. In the naive image, `README.md`, `Dockerfile.naive` and `evidence/` were copied into `/app`.
 
+
+## CI timings
+
+Three runs of `lab4-ci` on the `lab4-pipeline` branch. Step times come from `gh run view --json jobs`.
+
+| Step | Baseline (no cache) | Cache miss | Cache hit | Worth it? |
+|---|---|---|---|---|
+| pip install (test job) | 3 s | 3 s | 2 s | No |
+| docker build (build job) | 10 s | 16 s | 6 s | Yes, small |
+| Whole workflow (wall clock) | 56 s | 75 s | 63 s | - |
+
+The cache hit is confirmed from the log, not from the clock: the pip step shows `Cache restored from key: setup-python-Linux-x64-...-pip-...`, and the build step shows `importing cache manifest from gha`.
+
+- **pip cache - not worth it:** This lab only installs three small packages (flask, gunicorn, pytest), so pip install was already 3 s. The cache saved about 1 s, which is about the same as the time to restore the cache.
+- **Docker layer cache - worth it, but small:** On a cache hit, the build step went from 10 s to 6 s because the pip install layer was CACHED. The cache miss was slower (16 s) because it also had to save the cache. The whole workflow did not get faster, because setting up buildx adds time and runner speed changes between runs. With a bigger image or more dependencies, this cache would save much more.
