@@ -23,3 +23,4 @@ Evidence: `evidence/image-sizes.png`
 - **Base image:** The two images are about 1.02GB different. About 1.0GB of this comes from the base image in line 1 (1.13GB vs 124MB). Only a small part comes from my own layers (the pip layer is 17.8MB in naive and 6.38MB in slim, because slim uses `--no-cache-dir`).
 - **Cache:** On a code-only rebuild, the dependency layer is CACHED only in the slim image. In the naive image, `COPY . .` comes before `pip install`, so any code change makes pip install run again.
 - **.dockerignore:** It kept `.git`, `.github`, `evidence/`, `*.md`, `*.png`, `Dockerfile*` and Python cache files out of the build context. In the naive image, `README.md`, `Dockerfile.naive` and `evidence/` were copied into `/app`.
+
