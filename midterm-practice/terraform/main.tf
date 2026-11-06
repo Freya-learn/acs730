@@ -5,6 +5,17 @@
 #
 # This configuration does not currently pass `terraform validate`. Tasks 3 and 4.
 
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
 variable "aws_region" {
   description = "Region to deploy into. LocalStack ignores it, but the provider still requires one."
   type        = string
