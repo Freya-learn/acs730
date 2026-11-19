@@ -24,7 +24,7 @@ jobs:
     environment: staging
     defaults:
       run:
-        working-directory: assignment1/terraform/environments/staging
+        working-directory: assignment1/terraform/staging
     steps:
       - uses: actions/checkout@v4
 
@@ -62,7 +62,7 @@ jobs:
     environment: staging
     defaults:
       run:
-        working-directory: assignment1/terraform/environments/staging
+        working-directory: assignment1/terraform/staging
     steps:
       - uses: actions/checkout@v4
 
@@ -96,7 +96,7 @@ jobs:
     environment: prod
     defaults:
       run:
-        working-directory: assignment1/terraform/environments/prod
+        working-directory: assignment1/terraform/prod
     steps:
       - uses: actions/checkout@v4
 

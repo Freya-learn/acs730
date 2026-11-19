@@ -9,7 +9,7 @@ terraform {
 
   backend "s3" {
     bucket       = "acs730-tfstate-731254789382"
-    key          = "assignment1/dev/terraform.tfstate"
+    key          = "assignment1/prod/terraform.tfstate"
     region       = "us-east-1"
     encrypt      = true
     use_lockfile = true
@@ -21,10 +21,10 @@ provider "aws" {
 }
 
 module "web" {
-  source = "../../modules/web"
+  source = "../modules/web"
 
-  environment        = "dev"
+  environment        = "prod"
   instance_type      = "t3.micro"
-  instance_names     = ["web-1"]
+  instance_names     = ["web-1", "web-2"]
   http_ingress_cidrs = ["0.0.0.0/0"]
 }

@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "web" {
-  source = "../../modules/web"
+  source = "../modules/web"
 
   environment        = "staging"
   instance_type      = "t3.micro"
