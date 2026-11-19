@@ -1,0 +1,27 @@
+== aws ssm get-parameter (SecureString, value stays encrypted)
+{
+    "Parameter": {
+        "Name": "/acs730/assignment1/prod/db-password",
+        "Type": "SecureString",
+        "Value": "AQICAHgGwqM4W1UlBM9ULCwo4UQ/WoM45XOKYLcVMbZWNm7xOAHtJjlNXSTvbk2I2PeEuMZAAAAAgzCBgAYJKoZIhvcNAQcGoHMwcQIBADBsBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDJfelmKPXYRCn+n6DgIBEIA/manPJfWP7qlWtT+7PwY3nDjVLtJ8oPSB1R2bVH1fwsenoya0VyMo/eVxwmsbLsHzZNN/Vmcdmuj/7ld6dXXn",
+        "Version": 1,
+        "LastModifiedDate": "2026-11-19T14:46:44.476000+00:00",
+        "ARN": "arn:aws:ssm:us-east-1:731254789382:parameter/acs730/assignment1/prod/db-password",
+        "DataType": "text"
+    }
+}
+
+== Terraform state for prod: the parameter is a data source
+module.web.data.aws_ssm_parameter.al2023
+module.web.data.aws_ssm_parameter.db_password
+module.web.aws_cloudwatch_metric_alarm.cpu_high["web-1"]
+module.web.aws_cloudwatch_metric_alarm.cpu_high["web-2"]
+module.web.aws_instance.web["web-1"]
+module.web.aws_instance.web["web-2"]
+module.web.aws_security_group.web
+
+== Every aws_ssm_parameter in the Terraform code (data sources only, no resource)
+assignment1/terraform/modules/web/main.tf:32:data "aws_ssm_parameter" "al2023" {
+assignment1/terraform/modules/web/main.tf:37:data "aws_ssm_parameter" "db_password" {
+assignment1/terraform/modules/web/main.tf:72:  ami                    = data.aws_ssm_parameter.al2023.value
+assignment1/terraform/modules/web/main.tf:84:    DB_PASSWORD=${data.aws_ssm_parameter.db_password.value}
