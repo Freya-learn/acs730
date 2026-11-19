@@ -4,11 +4,15 @@ on:
   pull_request:
     paths:
       - "assignment1/**"
+      - "!assignment1/evidence/**"
+      - "!assignment1/REPORT.md"
       - ".github/workflows/assignment1.yml"
   push:
     branches: [ main ]
     paths:
       - "assignment1/**"
+      - "!assignment1/evidence/**"
+      - "!assignment1/REPORT.md"
       - ".github/workflows/assignment1.yml"
 
 concurrency:
